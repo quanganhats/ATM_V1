@@ -1,0 +1,23 @@
+version: "3.9"
+
+services:
+  db:
+    image: mongo:7.0.8
+    ports:
+      - "27019:27017"
+    networks:
+      - dsa-network
+
+  backend:
+    build: .
+    command: poetry run python main.py
+    ports:
+      - "8001:8000"
+    networks:
+      - dsa-network
+    depends_on:
+      - db
+
+networks:
+  dsa-network:
+    driver: bridge
